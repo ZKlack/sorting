@@ -61,3 +61,45 @@ template<class T> void zk::sorting::quick(T *begin, T *end, bool (*comp)(T &, T 
     zk::sorting::quick(begin,l,comp);
     zk::sorting::quick(l+1,end,comp);
 }
+
+template<class T> void zk::sorting::heap(T *begin, T *end, bool (*comp)(T &, T &)) {
+    size_t size=end-begin;
+    for(size_t i=size;i>0;--i)
+    {
+        size_t j=i;
+        bool heapify;
+        do{
+            size_t p=j,l=j<<1,r=(j<<1)+1;
+            if(l<=size&&comp(begin[p-1],begin[l-1]))
+                p=l;
+            if(r<=size&&comp(begin[p-1],begin[r-1]))
+                p=r;
+            heapify=p!=j;
+            if(heapify)
+            {
+                std::swap(begin[p-1],begin[j-1]);
+                j=p;
+            }
+        }while(heapify);
+    }
+    while(begin<end)
+    {
+        std::swap(*begin,*(--end));
+        --size;
+        size_t j=1;
+        bool heapify;
+        do{
+            size_t p=j,l=j<<1,r=(j<<1)+1;
+            if(l<=size&&comp(begin[p-1],begin[l-1]))
+                p=l;
+            if(r<=size&&comp(begin[p-1],begin[r-1]))
+                p=r;
+            heapify=p!=j;
+            if(heapify)
+            {
+                std::swap(begin[p-1],begin[j-1]);
+                j=p;
+            }
+        }while(heapify);
+    }
+}

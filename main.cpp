@@ -15,7 +15,8 @@ int main()
             {"bubble sort",     zk::sorting::bubble<int>},
             {"selection sort",  zk::sorting::selection<int>},
             {"merge sort",      zk::sorting::merge<int>},
-            {"quick sort",      zk::sorting::quick<int>}
+            {"quick sort",      zk::sorting::quick<int>},
+            {"heap sort",       zk::sorting::heap<int>}
     };
     std::vector<int> Arr(10000);
     for (int &i: Arr)
@@ -31,14 +32,4 @@ int main()
             std::cout<<algo.first<< " took " << duration.count() << " microseconds\n";
         }while(++sw&1);
     }
-//    std::vector<int> arr(20);
-//    for(int &i:arr)
-//        i=rand()%100;
-//    for(int &i:arr)
-//        std::cout<<i<<", ";
-//    std::cout<<'\n';
-//    zk::sorting::quick(arr.data(),arr.data()+arr.size(),less);
-//    for(auto i:arr)
-//        std::cout<<i<<", ";
-//    std::cout<<'\n';
 }
