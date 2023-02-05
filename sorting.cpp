@@ -26,40 +26,48 @@ template<class T> void zk::sorting::selection(T *begin, T *end, bool (*comp)(T &
 }
 
 template<class T> void zk::sorting::merge(T *begin, T *end, bool (*comp)(T &, T &)) {
-    size_t size=end-begin;
+    size_t size=end-begin,hsize=size>>1;
     if(size<=1)
         return;
-    T cop[size],*copbig=cop,*copend=cop+size,*copmid=cop+(size/2);
+    zk::sorting::merge(begin,begin+hsize,comp);
+    zk::sorting::merge(begin+hsize,end,comp);
+    T cop[size];
     for(size_t i=0;i<size;++i)
         cop[i]=begin[i];
-    zk::sorting::merge(copbig,copmid,comp);
-    zk::sorting::merge(copmid,copend,comp);
-    for(T *i=begin,*j=copbig,*k=copmid;i!=end;++i)
-        if(j==copmid)
-            *i=*(k++);
-        else if(k==end)
-            *i=*(j++);
-        else if(comp(*k,*j))
-            *i=*(k++);
+    T *copb=&(cop[0]), *copm=copb+hsize, *cope=copb+size;
+    for(size_t i=0, j=0, k=0;i<size;++i)
+    {
+        while(j==copm-copb&&k<cope-copm)
+            begin[i++]=copm[k++];
+        while(k==cope-copm&&j<copm-copb)
+            begin[i++]=copb[j++];
+        if(i>=size)
+            break;
+        if(comp(copm[k],copb[j]))
+            begin[i]=copm[k++];
         else
-            *i=*(j++);
+            begin[i]=copb[j++];
+    }
 }
 
-template<class T> void zk::sorting::quick(T *begin, T *end, bool (*comp)(T &, T &)) {
+template<class T> void zk::sorting::quick_first(T *begin, T *end, bool (*comp)(T &, T &)) {
     if(end-begin<=1)
         return;
-    T p=*begin,*l=begin,*r=end-1;
+    T *p=begin, *l=begin+1, *r=end-1;
     while(l<r)
     {
-        if(comp(p,*r))
-            --r;
-        else if(comp(*l,p))
+        while(!comp(*p,*l)&&l<r)
             ++l;
-        else
-            std::swap(*(l++),*r);
+        while(comp(*p,*r)&&l<r)
+            --r;
+        std::swap(*l,*r);
     }
-    zk::sorting::quick(begin,l,comp);
-    zk::sorting::quick(l+1,end,comp);
+    while(comp(*p,*l))
+        --l;
+    std::swap(*l,*p);
+    p=l;
+    zk::sorting::quick_first(begin,p,comp);
+    zk::sorting::quick_first(p+1,end,comp);
 }
 
 template<class T> void zk::sorting::heap(T *begin, T *end, bool (*comp)(T &, T &)) {
@@ -102,4 +110,64 @@ template<class T> void zk::sorting::heap(T *begin, T *end, bool (*comp)(T &, T &
             }
         }while(heapify);
     }
+}
+
+template<class T> void zk::sorting::quick_last(T *begin, T *end, bool (*comp)(T &, T &)) {
+    if(end-begin<=1)
+        return;
+    T *p=end-1, *l=begin, *r=end-2;
+    while(l<r)
+    {
+        while(!comp(*p,*l)&&l<r)
+            ++l;
+        while(comp(*p,*r)&&l<r)
+            --r;
+        std::swap(*l,*r);
+    }
+    while(comp(*r,*p))
+        ++r;
+    std::swap(*r,*p);
+    p=r;
+    zk::sorting::quick_last(begin,p,comp);
+    zk::sorting::quick_last(p+1,end,comp);
+}
+
+template<class T> void zk::sorting::quick_middle(T *begin, T *end, bool (*comp)(T &, T &)) {
+    size_t size=end-begin;
+    if(size<=1)
+        return;
+    T p=begin[size>>1], *l=begin, *r=end-1;
+    while(l<r)
+    {
+        while(!comp(p,*l)&&l<r)
+            ++l;
+        while(comp(p,*r)&&l<r)
+            --r;
+        std::swap(*l,*r);
+    }
+    l=begin;
+    while(p!=*l)
+        ++l;
+    zk::sorting::quick_last(begin,l,comp);
+    zk::sorting::quick_last(l+1,end,comp);
+}
+
+template<class T> void zk::sorting::quick_random(T *begin, T *end, bool (*comp)(T &, T &)) {
+    size_t size=end-begin;
+    if(size<=1)
+        return;
+    T p=begin[rand()%size], *l=begin, *r=end-1;
+    while(l<r)
+    {
+        while(!comp(p,*l)&&l<r)
+            ++l;
+        while(comp(p,*r)&&l<r)
+            --r;
+        std::swap(*l,*r);
+    }
+    l=begin;
+    while(p!=*l)
+        ++l;
+    zk::sorting::quick_last(begin,l,comp);
+    zk::sorting::quick_last(l+1,end,comp);
 }
