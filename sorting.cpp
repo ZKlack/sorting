@@ -136,38 +136,44 @@ template<class T> void zk::sorting::quick_middle(T *begin, T *end, bool (*comp)(
     size_t size=end-begin;
     if(size<=1)
         return;
-    T p=begin[size>>1], *l=begin, *r=end-1;
+    T *p=begin+(size>>1), *l=begin+1, *r=end-1;
+    std::swap(*p,*begin);
+    p=begin;
     while(l<r)
     {
-        while(!comp(p,*l)&&l<r)
+        while(!comp(*p,*l)&&l<r)
             ++l;
-        while(comp(p,*r)&&l<r)
+        while(comp(*p,*r)&&l<r)
             --r;
         std::swap(*l,*r);
     }
-    l=begin;
-    while(p!=*l)
-        ++l;
-    zk::sorting::quick_last(begin,l,comp);
-    zk::sorting::quick_last(l+1,end,comp);
+    while(comp(*p,*l))
+        --l;
+    std::swap(*l,*p);
+    p=l;
+    zk::sorting::quick_middle(begin,p,comp);
+    zk::sorting::quick_middle(p+1,end,comp);
 }
 
 template<class T> void zk::sorting::quick_random(T *begin, T *end, bool (*comp)(T &, T &)) {
     size_t size=end-begin;
     if(size<=1)
         return;
-    T p=begin[rand()%size], *l=begin, *r=end-1;
+    T *p=begin+(rand()%size), *l=begin+1, *r=end-1;
+    std::swap(*p,*begin);
+    p=begin;
     while(l<r)
     {
-        while(!comp(p,*l)&&l<r)
+        while(!comp(*p,*l)&&l<r)
             ++l;
-        while(comp(p,*r)&&l<r)
+        while(comp(*p,*r)&&l<r)
             --r;
         std::swap(*l,*r);
     }
-    l=begin;
-    while(p!=*l)
-        ++l;
-    zk::sorting::quick_last(begin,l,comp);
-    zk::sorting::quick_last(l+1,end,comp);
+    while(comp(*p,*l))
+        --l;
+    std::swap(*l,*p);
+    p=l;
+    zk::sorting::quick_random(begin,p,comp);
+    zk::sorting::quick_random(p+1,end,comp);
 }

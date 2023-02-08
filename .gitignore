@@ -11,7 +11,6 @@ cmake-build-debug/.ninja_deps
 cmake-build-debug/.ninja_log
 *.ninja
 *.cmake
-*.txt
 *.bin
 *.exe
 *.c
@@ -19,3 +18,27 @@ cmake-build-debug/.ninja_log
 *.check_cache
 *.log
 *.obj
+cmake-build-debug/CMakeCache.txt
+cmake-build-debug/CMakeFiles/clion-environment.txt
+cmake-build-debug/CMakeFiles/clion-log.txt
+cmake-build-debug/CMakeFiles/TargetDirectories.txt
+*.xlsx
+workingDir/bubble sort/sorted_arrays.txt
+workingDir/bubble sort/speeds.txt
+workingDir/heap sort/sorted_arrays.txt
+workingDir/heap sort/speeds.txt
+workingDir/insertion sort/sorted_arrays.txt
+workingDir/insertion sort/speeds.txt
+workingDir/merge sort/sorted_arrays.txt
+workingDir/merge sort/speeds.txt
+workingDir/quick sort (first element)/sorted_arrays.txt
+workingDir/quick sort (first element)/speeds.txt
+workingDir/quick sort (last element)/sorted_arrays.txt
+workingDir/quick sort (last element)/speeds.txt
+workingDir/quick sort (middle element)/sorted_arrays.txt
+workingDir/quick sort (middle element)/speeds.txt
+workingDir/quick sort (random element)/sorted_arrays.txt
+workingDir/quick sort (random element)/speeds.txt
+workingDir/random_arrays.txt
+workingDir/selection sort/sorted_arrays.txt
+workingDir/selection sort/speeds.txt
