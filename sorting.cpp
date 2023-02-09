@@ -11,7 +11,7 @@ template<class T> void zk::sorting::bubble(T *begin, T *end, bool (*comp)(T &, T
     if(end-begin<=1)
         return;
     for(T *i=begin;i!=end;++i)
-        for(T *j=end-1;j!=begin;--j)
+        for(T *j=end-1;j!=i;--j)
             if(comp(*j,*(j-1)))
                 std::swap(*j,*(j-1));
 }
