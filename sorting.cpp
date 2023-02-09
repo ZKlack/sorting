@@ -159,7 +159,7 @@ template<class T> void zk::sorting::quick_random(T *begin, T *end, bool (*comp)(
     size_t size=end-begin;
     if(size<=1)
         return;
-    T *p=begin+(rand()%size), *l=begin+1, *r=end-1;
+    T *p=begin+((rand()&((size_t)rand()<<32))%size), *l=begin+1, *r=end-1;
     std::swap(*p,*begin);
     p=begin;
     while(l<r)
